@@ -88,7 +88,8 @@ def Get_files(in_file_name):
     if(header != 'apexapcf' and header != 'apexapsf'):
         raise Exception('Invalid File Header')
 
-    Read_padding(inFile,32)
+    #Skip unknown data
+    inFile.seek(32,1)
 
     #Get the number of folders
     num_folders = unpack('I',inFile.read(4))[0]

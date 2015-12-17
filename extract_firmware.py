@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #PIPCAM8 Firmware Extractor
 #Copyright Arthur Moore 2015
 #BSD 3 Clause License
@@ -6,19 +7,13 @@ from struct import *
 import os
 import sys
 
-#File Name:
+#Packed File:
 #   44 bytes total
 #   File Name 28 bytes (28 chars)
 #   ??? 4 bytes
 #   File Start location 4 bytes (1 unsigned int)
 #   File size 4 bytes (1 unsigned int)
 #   Folder Select 4 bytes (1 unsigned int)
-
-#File contents
-#   total size (see File Name)
-#   ??? 3 bytes
-#   File actual contents (rest)
-
 class packed_file:
     def __init__(self, inFile = None, folder_names = None):
         self.name = ''
@@ -27,7 +22,6 @@ class packed_file:
         self.size = 0
         self.folder_select = 0
         self.folder_name = ''
-        self.contents_header = ''
         self.contents = ''
         if(inFile):
             #This comes from the file name struct
@@ -42,9 +36,7 @@ class packed_file:
             #Read the file contents
             original_position = inFile.tell()
             inFile.seek(self.file_start,0)
-            tmp = inFile.read(self.size)
-            self.contents_header = tmp[0:2]
-            self.contents = tmp[3:]
+            self.contents = inFile.read(self.size)
             inFile.seek(original_position,0)
 
 
